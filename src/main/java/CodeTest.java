@@ -25,7 +25,13 @@ public class CodeTest {
     public static Map<String, Integer> findWordCountAll(String text) {
         ArrayList<String> list = new ArrayList<String>(Arrays.asList(text.split(" ")));
         Map<String,Integer> map = new HashMap<String,Integer>();
-        list.stream().map(s -> map.get(s) == null ? map.put(s, 1) : map.put(s, map.get(s) + 1));
+        for(String s : list) {
+            if(map.get(s) == null) {
+                map.put(s, 1);
+            } else {
+                map.put(s, map.get(s) + 1);
+            };
+        } 
         return map;
     }
 
