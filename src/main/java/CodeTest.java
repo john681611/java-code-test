@@ -73,6 +73,16 @@ public class CodeTest {
     }
 
     public static void puzzle() {
-        // add code here
+        Scanner in = new Scanner(System.in);
+        int previous = -1;
+        while(in.hasNextInt()) {
+            int next = in.nextInt();
+            System.out.println(next);
+            if(next == previous) {
+                System.out.println("Snap");
+                return;
+            }
+            previous = next;
+        }
     }
 }

@@ -5,10 +5,13 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.function.Function;
 
 /*
@@ -26,6 +29,7 @@ public class CodeTestSpec {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
+    InputStream sysInBackup = System.in;
 
     @Before
     public void setUpStreams() {
@@ -37,6 +41,7 @@ public class CodeTestSpec {
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
+        System.setIn(sysInBackup);
     }
 
     @Test
@@ -133,6 +138,9 @@ public class CodeTestSpec {
 
     @Test
     public void puzzle_returnsExpectedResult() {
-
+        ByteArrayInputStream in = new ByteArrayInputStream("1 2 3 5 5".getBytes());
+        System.setIn(in);
+        CodeTest.puzzle();
+        assertEquals(String.join("\n","1", "2", "3","5" ,"5" ,"Snap\n"), outContent.toString());
     }
 }
