@@ -1,8 +1,11 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,32 +27,49 @@ public class CodeTest {
 
     public static Map<String, Integer> findWordCountAll(String text) {
         ArrayList<String> list = new ArrayList<String>(Arrays.asList(text.split(" ")));
-        Map<String,Integer> map = new HashMap<String,Integer>();
-        for(String s : list) {
-            if(map.get(s) == null) {
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        for (String s : list) {
+            if (map.get(s) == null) {
                 map.put(s, 1);
             } else {
                 map.put(s, map.get(s) + 1);
-            };
-        } 
+            }
+            ;
+        }
         return map;
     }
 
     public static int findWordCount(String text, String wordToFind) {
-        Map<String,Integer> map = findWordCountAll(text);
+        Map<String, Integer> map = findWordCountAll(text);
         return map.get(wordToFind);
     }
 
-    public static Function<Integer,Integer> composeU(Function<Integer,Integer> f1, Function<Integer,Integer> f2){
-        return (d) -> {return f2.apply(f1.apply((d)));};
+    public static Function<Integer, Integer> composeU(Function<Integer, Integer> f1, Function<Integer, Integer> f2) {
+        return (d) -> {
+            return f2.apply(f1.apply((d)));
+        };
     }
 
     public static void writeContentsToConsole() {
-        // add code here
+        File myObj = new File(".gitignore");
+        Scanner myReader;
+        try {
+            myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+              }
+              myReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+     
     }
 
-    public static void handleInvalidArgument() {
-        // add code here
+    public static void handleInvalidArgument(int x) {
+        if (x < 15) {
+            throw new IllegalArgumentException("Invalid value must be greater than 14 x was: " + x);
+        }
     }
 
     public static void puzzle() {

@@ -1,8 +1,12 @@
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -17,6 +21,24 @@ import java.util.function.Function;
  */
 
 public class CodeTestSpec {
+
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
+
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+    }
+
+    @After
+    public void restoreStreams() {
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+    }
+
     @Test
     public void reverseArray_returnsExpectedResult() {
         // arrange
@@ -81,12 +103,32 @@ public class CodeTestSpec {
 
     @Test
     public void writeContentsToConsole_returnsExpectedResult() {
-
+        CodeTest.writeContentsToConsole();
+        assertEquals(String.join("\n",
+        "**/.idea/*",
+        "**/npm-debug.log*",
+        "**/node_modules",
+        "**/.npm",
+        "**/build/*",
+        "**/.DS_Store",
+        "**/.env",
+        "**/.gradle/*",
+        "**/out/*",
+        "**/*.log",
+        "*.jar",
+        "gradle/wrapper/gradle-wrapper.properties",
+        "*.bat\n"), outContent.toString());
     }
 
     @Test
     public void handleInvalidArgument_returnsExpectedResult() {
-
+        IllegalArgumentException err = null;
+        try {
+            CodeTest.handleInvalidArgument(1);
+        } catch (IllegalArgumentException e) {
+            err = e;
+        }
+        assertEquals("Invalid value must be greater than 14 x was: 1", err.getMessage());
     }
 
     @Test
