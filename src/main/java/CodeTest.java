@@ -41,8 +41,7 @@ public class CodeTest {
     }
 
     public static Function<Integer,Integer> composeU(Function<Integer,Integer> f1, Function<Integer,Integer> f2){
-        // add code here
-        return null;
+        return (d) -> {return f2.apply(f1.apply((d)));};
     }
 
     public static void writeContentsToConsole() {

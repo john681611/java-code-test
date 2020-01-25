@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /*
  *   Please code the tests in the format of reverseArray_returnsExpectedResult. This is an example of how we write our tests at Cardano.
@@ -72,7 +73,10 @@ public class CodeTestSpec {
 
     @Test
     public void composeU_returnsExpectedResult() {
-
+        final Function<Integer,Integer> f1 = (d) -> {return d + 1;};
+        final Function<Integer,Integer> f2 = (d) -> {return d * 2;};
+        final Function<Integer,Integer> func = CodeTest.composeU(f1, f2);
+        assertTrue(4 == func.apply(1));
     }
 
     @Test
